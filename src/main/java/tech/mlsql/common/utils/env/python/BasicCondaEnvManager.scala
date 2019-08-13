@@ -29,7 +29,7 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
     try {
       val cr = ShellCommand.execCmdV2(condaPath, "--help")
       if (cr.exitCode != 0) {
-        throw new RuntimeException(s"Fail to execute ${condaPath} --help command，out:${cr.out} error:${cr.err}")
+        throw new RuntimeException(s"Fail to execute ${condaPath} --help command，out:${cr.out.string} error:${cr.err.string}")
       }
     } catch {
       case e: Exception =>
@@ -74,9 +74,12 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
           val tempFile = "/tmp/" + UUID.randomUUID() + ".yaml"
           try {
             FileUtils.write(new File(tempFile), getCondaYamlContent(condaEnvPath), Charset.forName("utf-8"))
-            val cr = ShellCommand.execCmdV2(condaPath, "env", "-n", projectEnvName, "--file", "tempFile")
+            val cr = ShellCommand.execCmdV2WithProcessing((s) => {
+              println(s"Creating conda env:${projectEnvName}: " + s)
+            },
+              condaPath, "env", "create", "-n", projectEnvName, "--file", tempFile)
             if (cr.exitCode != 0) {
-              throw new RuntimeException(s"Fail to create env ${projectEnvName}，out:${cr.out} error:${cr.err}")
+              throw new RuntimeException(s"Fail to create env ${projectEnvName}，error:${cr.stderr.lines.mkString("\n")}")
             }
           } catch {
             case e: Exception =>
@@ -102,7 +105,7 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
     try {
       val cr = ShellCommand.execCmdV2(condaPath, "env", "remove", "-y", "-n", projectEnvName)
       if (cr.exitCode != 0) {
-        throw new RuntimeException(s"Fail to remove env ${projectEnvName}，out:${cr.out} error:${cr.err}")
+        throw new RuntimeException(s"Fail to remove env ${projectEnvName}，out:${cr.out.string} error:${cr.err.string}")
       }
     } catch {
       case e: Exception => logError(s"Fail to remove env ${projectEnvName}", e)

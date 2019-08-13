@@ -132,7 +132,15 @@ object ShellCommand extends TFileWriter with Logging {
   }
 
   def execCmdV2(command: os.Shellable*) = {
-    val cr = os.proc(command).call()
+    val cr = os.proc(command).call(check = false)
+    cr
+  }
+
+  def execCmdV2WithProcessing(f: (String) => Unit, command: os.Shellable*) = {
+    val cr = os.proc(command).spawn()
+    while (cr.stdout.available() > 0 || cr.isAlive()) {
+      f(cr.stdout.readLine())
+    }
     cr
   }
 
