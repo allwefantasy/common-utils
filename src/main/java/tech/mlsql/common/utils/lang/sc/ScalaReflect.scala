@@ -1,4 +1,4 @@
-package tech.mlsql.common.utils
+package tech.mlsql.common.utils.lang.sc
 
 import scala.reflect.ClassTag
 import scala.reflect.runtime.{universe => ru}

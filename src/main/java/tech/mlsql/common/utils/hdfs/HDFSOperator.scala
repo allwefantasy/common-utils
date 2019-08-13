@@ -1,13 +1,12 @@
-package tech.mlsql.common.utils
+package tech.mlsql.common.utils.hdfs
 
-import java.io.{BufferedReader, ByteArrayOutputStream, InputStream, InputStreamReader}
-import java.io.File
+import java.io._
 
-import org.apache.hadoop.fs.FileSystem
 import org.apache.commons.io.FileUtils
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.{FSDataInputStream, FSDataOutputStream, FileStatus, Path}
+import org.apache.hadoop.fs._
 import org.apache.hadoop.io.IOUtils
+import tech.mlsql.common.utils.Md5
 
 import scala.collection.mutable.ArrayBuffer
 

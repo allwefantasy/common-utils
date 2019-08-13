@@ -1,4 +1,4 @@
-package tech.mlsql.common.utils
+package tech.mlsql.common.utils.serder.json
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}

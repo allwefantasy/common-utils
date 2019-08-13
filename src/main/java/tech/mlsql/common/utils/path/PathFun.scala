@@ -1,4 +1,4 @@
-package tech.mlsql.common.utils
+package tech.mlsql.common.utils.path
 
 import scala.collection.mutable.ArrayBuffer
 
