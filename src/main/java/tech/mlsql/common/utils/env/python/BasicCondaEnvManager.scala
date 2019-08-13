@@ -63,7 +63,11 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
   def getOrCreateCondaEnv(condaEnvPath: Option[String]) = {
 
     val condaPath = validateCondaExec
-    val stdout = ShellCommand.execCmd(s"${condaPath} env list --json")
+    val res = ShellCommand.execCmdV2(condaPath, "env", "list", "--json")
+    if (res.exitCode != 0) {
+      throw new RuntimeException(s"Fail to list env ，error:${res.err.string}")
+    }
+    val stdout = res.out
 
     val envNames = JSONObject.fromObject(stdout).getJSONArray("envs").asScala.map(_.asInstanceOf[String].split("/").last).toSet
     val projectEnvName = getCondaEnvName(condaEnvPath)
