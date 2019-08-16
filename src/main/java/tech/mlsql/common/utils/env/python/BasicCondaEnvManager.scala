@@ -67,7 +67,7 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
     if (res.exitCode != 0) {
       throw new RuntimeException(s"Fail to list env ，error:${res.err.string}")
     }
-    val stdout = res.out
+    val stdout = res.out.string
 
     val envNames = JSONObject.fromObject(stdout).getJSONArray("envs").asScala.map(_.asInstanceOf[String].split("/").last).toSet
     val projectEnvName = getCondaEnvName(condaEnvPath)
@@ -111,8 +111,11 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
       if (cr.exitCode != 0) {
         throw new RuntimeException(s"Fail to remove env ${projectEnvName}，out:${cr.out.string} error:${cr.err.string}")
       }
+      cr.out.string
     } catch {
-      case e: Exception => logError(s"Fail to remove env ${projectEnvName}", e)
+      case e: Exception =>
+        logError(s"Fail to remove env ${projectEnvName}", e)
+        s"Fail to remove env ${projectEnvName}"
     }
 
   }
