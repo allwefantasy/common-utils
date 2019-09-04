@@ -182,9 +182,4 @@ public class NetUtils {
         }
         return ss;
     }
-
-    public static void main(String[] args) {
-        int ss = availableAndReturn("192.168.218.166", 7778, 7783);
-        System.out.println(ss);
-    }
 }

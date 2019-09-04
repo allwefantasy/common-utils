@@ -6,7 +6,7 @@
 
     <groupId>tech.mlsql</groupId>
     <artifactId>common-utils_2.11</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.9</version>
     <name>common utils</name>
     <url>https://github.com/allwefantasy/common-utils</url>
     <description>
@@ -84,12 +84,7 @@
             <classifier>jdk15</classifier>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.python</groupId>
-            <artifactId>jython-standalone</artifactId>
-            <version>2.7.1</version>
-        </dependency>
-
+        
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
