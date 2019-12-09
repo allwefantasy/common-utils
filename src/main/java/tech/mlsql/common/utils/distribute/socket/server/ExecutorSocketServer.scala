@@ -61,9 +61,9 @@ object SocketServerInExecutor extends Logging {
       override def run(): Unit = {
         try {
           /**
-            * Since we will start this BinLogSocketServerInExecutor in spark task, so when we kill the task,
-            * The taskContext should also be null
-            */
+           * Since we will start this BinLogSocketServerInExecutor in spark task, so when we kill the task,
+           * The taskContext should also be null
+           */
           while (taskContextRef.get() != null) {
             val socket = serverSocket.accept()
             threadPool.submit(new Runnable {
@@ -173,6 +173,58 @@ abstract class SocketServerSerDer[IN: Manifest, OUT: Manifest] {
       asInstanceOf[ {def unwrap: Response[_]}].unwrap
     response
   }
+
+  def sendMarkRequest(dOut: DataOutputStream, mark: Int): Unit = {
+    dOut.writeInt(mark)
+    dOut.flush()
+  }
+
+  def readIterator(dIn: DataInputStream): Iterator[Response[_]] = {
+
+    new Iterator[Response[_]]() {
+      private var dataOrMark = SocketIteratorMark.HEAD
+      private var nextObj: Response[_] = _
+      private var eos = false
+
+      override def hasNext: Boolean = nextObj != null || {
+        if (!eos) {
+          dataOrMark = dIn.readInt
+
+          def next(mark: Int): Boolean = {
+            mark match {
+              case SocketIteratorMark.END =>
+                eos = true // eos=true !!!
+                false // 结束位
+              case SocketIteratorMark.HEAD => // 开始位 需要继续读一位
+                dataOrMark = dIn.readInt // 长度位 or end
+                next(dataOrMark)
+              case _ =>
+                val bytes = new Array[Byte](dataOrMark)
+                dIn.readFully(bytes, 0, dataOrMark)
+                val response = JsonUtils.fromJson[OUT](new String(bytes, StandardCharsets.UTF_8)).
+                  asInstanceOf[ {def unwrap: Response[_]}].unwrap
+                nextObj = response
+                true
+            }
+          }
+
+          next(dataOrMark)
+        } else {
+          false
+        }
+      }
+
+      override def next(): Response[_] = {
+        if (hasNext) {
+          val obj = nextObj
+          nextObj = null.asInstanceOf[Response[_]]
+          obj
+        } else {
+          Iterator.empty.next()
+        }
+      }
+    }
+  }
 }
 
 case class ReportHostAndPort(host: String, port: Int) extends Request[ReportSingleAction] {
@@ -198,6 +250,11 @@ case class ReportSingleAction(reportHostAndPort: ReportHostAndPort = null) {
     if (reportHostAndPort != null) return reportHostAndPort
     else null
   }
+}
+
+object SocketIteratorMark {
+  val HEAD = -2 // 交付开始
+  val END = -1 // 交付结束
 }
 
 
