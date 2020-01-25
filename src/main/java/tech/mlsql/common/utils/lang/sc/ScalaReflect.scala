@@ -4,8 +4,8 @@ import scala.reflect.ClassTag
 import scala.reflect.runtime.{universe => ru}
 
 /**
-  * 2019-05-01 WilliamZhu(allwefantasy@gmail.com)
-  */
+ * 2019-05-01 WilliamZhu(allwefantasy@gmail.com)
+ */
 
 class ScalaReflect {}
 
@@ -28,7 +28,44 @@ object ScalaReflect {
     new ScalaModuleReflect(module)
   }
 
-  //def getClass[T: ru.TypeTag](obj: T) = ru.typeTag[T].tpe.typeSymbol.asClass
+//  def ccFromMap[T: TypeTag : ClassTag](m: Map[String, _]) = {
+//    import scala.reflect._
+//    import scala.reflect.runtime.universe._
+//    val rm = runtimeMirror(classTag[T].runtimeClass.getClassLoader)
+//    val classTest = typeOf[T].typeSymbol.asClass
+//    val classMirror = rm.reflectClass(classTest)
+//    val constructor = typeOf[T].decl(termNames.CONSTRUCTOR).asMethod
+//    val constructorMirror = classMirror.reflectConstructor(constructor)
+//
+//    val constructorArgs = constructor.paramLists.flatten.map((param: Symbol) => {
+//      val paramName = param.name.toString
+//      if (param.typeSignature <:< typeOf[Option[Any]])
+//        m.get(paramName)
+//      else
+//        m.get(paramName).getOrElse(throw new IllegalArgumentException("Map is missing required parameter named " + paramName))
+//    })
+//
+//    constructorMirror(constructorArgs: _*).asInstanceOf[T]
+//  }
+
+//  def ccToMap[T: TypeTag : ClassTag](t: T): Map[String, Any] = {
+  //    import scala.reflect._
+  //    import scala.reflect.runtime.universe._
+  //    val rm = runtimeMirror(classTag[T].runtimeClass.getClassLoader)
+  //    val classTest = typeOf[T].typeSymbol.asClass
+  //    val classMirror = rm.reflectClass(classTest)
+  //    val constructor = typeOf[T].decl(termNames.CONSTRUCTOR).asMethod
+  //
+  //    val tempMap = new mutable.HashMap[String, Any]()
+  //    constructor.paramLists.flatten.foreach((param: Symbol) => {
+  //      val paramName = param.name.toString
+  //      if (param.typeSignature <:< typeOf[Option[Any]])
+  //        tempMap.put(paramName, rm.reflect(t).reflectField(param.asTerm).get)
+  //      else
+  //        tempMap.put(paramName, rm.reflect(t).reflectField(param.asTerm).get)
+  //    })
+  //    tempMap.toMap
+  //  }
 
 
 }
