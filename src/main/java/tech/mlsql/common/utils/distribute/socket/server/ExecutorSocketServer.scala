@@ -28,6 +28,9 @@ object SocketServerInExecutor extends Logging {
         try {
           sock = serverSocket.accept()
           func(sock)
+        } catch {
+          case e: Exception =>
+            logInfo(s"The server ${serverSocket} is closing the socket ${sock} connection")
         } finally {
           JavaUtils.closeQuietly(serverSocket)
           JavaUtils.closeQuietly(sock)
