@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper}
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
 import net.liftweb.{json => SJSon}
+import net.sf.json.{JSONArray, JSONObject}
 
 /**
-  * Created by allwefantasy on 2/8/2018.
-  */
+ * Created by allwefantasy on 2/8/2018.
+ */
 object JSONTool {
   def parseJson[T](str: String)(implicit m: Manifest[T]) = {
     implicit val formats = SJSon.DefaultFormats
@@ -23,6 +24,14 @@ object JSONTool {
   def pretty(item: AnyRef) = {
     implicit val formats = SJSon.Serialization.formats(SJSon.NoTypeHints)
     SJSon.Serialization.writePretty(item)
+  }
+
+  def jParseJsonArray(str: String) = {
+    JSONArray.fromObject(str)
+  }
+
+  def jParseJsonObj(str: String) = {
+    JSONObject.fromObject(str)
   }
 }
 
