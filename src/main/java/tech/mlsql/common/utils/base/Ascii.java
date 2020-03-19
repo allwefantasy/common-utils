@@ -16,8 +16,6 @@
 package tech.mlsql.common.utils.base;
 
 
-import com.google.common.annotations.Beta;
-
 /**
  * Static methods pertaining to ASCII characters (those in the range of values
  * {@code 0x00} through {@code 0x7F}), and to strings containing such
@@ -37,7 +35,8 @@ import com.google.common.annotations.Beta;
  */
 public final class Ascii {
 
-    private Ascii() {}
+    private Ascii() {
+    }
 
     /* The ASCII control characters, per RFC 20. */
     /**
@@ -235,14 +234,12 @@ public final class Ascii {
 
     /**
      * @see #DC1
-     *
      * @since 8.0
      */
     public static final byte DC2 = 18;
 
     /**
      * @see #DC1
-     *
      * @since 8.0
      */
     public static final byte DC3 = 19; // aka XOFF
@@ -256,7 +253,6 @@ public final class Ascii {
 
     /**
      * @see #DC1
-     *
      * @since 8.0
      */
     public static final byte DC4 = 20;
@@ -340,21 +336,18 @@ public final class Ascii {
 
     /**
      * @see #FS
-     *
      * @since 8.0
      */
     public static final byte GS = 29;
 
     /**
      * @see #FS
-     *
      * @since 8.0
      */
     public static final byte RS = 30;
 
     /**
      * @see #FS
-     *
      * @since 8.0
      */
     public static final byte US = 31;
@@ -389,7 +382,6 @@ public final class Ascii {
      *
      * @since 9.0
      */
-    @Beta
     public static final int MIN = 0;
 
     /**
@@ -397,7 +389,6 @@ public final class Ascii {
      *
      * @since 9.0
      */
-    @Beta
     public static final int MAX = 127;
 
     /**

@@ -6,6 +6,15 @@ import tech.mlsql.common.utils.base
  * 17/3/2020 WilliamZhu(allwefantasy@gmail.com)
  */
 object NameConvert {
+
+  def camelToUnderScore(name: String) = {
+    base.CaseFormat.UPPER_CAMEL.to(base.CaseFormat.LOWER_UNDERSCORE, name)
+  }
+
+  def underScoreToCamel(name: String) = {
+    base.CaseFormat.LOWER_UNDERSCORE.to(base.CaseFormat.UPPER_CAMEL, name)
+  }
+
   def lowerCamelToLowerUnderScore(name: String) = {
     base.CaseFormat.LOWER_CAMEL.to(base.CaseFormat.LOWER_UNDERSCORE, name)
   }

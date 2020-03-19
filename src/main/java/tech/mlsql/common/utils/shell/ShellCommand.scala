@@ -19,8 +19,8 @@
 package tech.mlsql.common.utils.shell
 
 /**
-  * Created by allwefantasy on 29/3/2018.
-  */
+ * Created by allwefantasy on 29/3/2018.
+ */
 
 import java.io.{File, FileWriter, RandomAccessFile}
 import java.util.UUID
@@ -31,10 +31,9 @@ import scala.sys.process.{ProcessLogger, _}
 
 
 /**
-  * Created by allwefantasy on 12/7/2017.
-  */
+ * Created by allwefantasy on 12/7/2017.
+ */
 object ShellCommand extends TFileWriter with Logging {
-
 
   def exec(shellStr: String): String = {
     try {

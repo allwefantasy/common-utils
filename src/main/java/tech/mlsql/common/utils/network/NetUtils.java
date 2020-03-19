@@ -114,7 +114,7 @@ public class NetUtils {
         Socket ss = null;
         Socket ss1 = null;
         AtomicInteger start = new AtomicInteger(MIN_PORT_NUMBER);
-
+        
         while (!bindSuccess && start.get() < MAX_PORT_NUMBER) {
             try {
                 ss = new Socket();
@@ -124,6 +124,7 @@ public class NetUtils {
                     ss1 = new Socket();
                     ss1.bind(new InetSocketAddress("0.0.0.0", start.get()));
                 }
+
                 bindSuccess = true;
             } catch (IOException e) {
                 bindSuccess = false;
@@ -143,6 +144,7 @@ public class NetUtils {
                         /* should not be thrown */
                     }
                 }
+
             }
 
 
@@ -159,7 +161,7 @@ public class NetUtils {
         boolean bindSuccess = false;
         ServerSocket ss = null;
         AtomicInteger start = new AtomicInteger(MIN_PORT_NUMBER);
-
+        
         while (!bindSuccess && start.get() < MAX_PORT_NUMBER) {
             try {
                 ss = new ServerSocket(start.get());
