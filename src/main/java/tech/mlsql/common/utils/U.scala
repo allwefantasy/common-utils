@@ -1,11 +1,11 @@
 package tech.mlsql.common.utils
 
-import java.io.File
+import java.io.{DataOutputStream, File, InputStream, OutputStream}
 import java.lang.management.{LockInfo, ManagementFactory, MonitorInfo, ThreadInfo}
 import java.net.URI
 
 import tech.mlsql.common.utils.base.CharMatcher
-import tech.mlsql.common.utils.io.IOTool
+import tech.mlsql.common.utils.io.{IOTool, RedirectStreams, RedirectThread}
 import tech.mlsql.common.utils.log.Logging
 import tech.mlsql.common.utils.net.NetTool
 import tech.mlsql.common.utils.os.SystemUtils
@@ -339,7 +339,30 @@ object U extends Logging {
     org.apache.log4j.Logger.getRootLogger().setLevel(l)
   }
 
+  def writeUTF(str: String, dataOut: DataOutputStream): Unit = {
+    IOTool.writeUTF(str, dataOut)
+  }
+
+  def redirectStream(conf: Map[String, String], source: InputStream, target: OutputStream = System.err) {
+    try {
+      conf.get(REDIRECT_IMPL) match {
+        case None =>
+          new RedirectThread(source, target, "stdout reader").start()
+        case Some(clzz) =>
+          val instance = Class.forName(clzz).newInstance().asInstanceOf[RedirectStreams]
+          instance.setConf(conf)
+          instance.stdOut(source)
+          instance.setTarget(target)
+      }
+    } catch {
+      case e: Exception =>
+        logError("Exception in redirecting streams", e)
+    }
+  }
+
+  val REDIRECT_IMPL = "redirect.impl"
 }
+
 
 case class StackTrace(elems: Seq[String]) {
   override def toString: String = elems.mkString

@@ -6,7 +6,7 @@
 
     <groupId>tech.mlsql</groupId>
     <artifactId>common-utils_2.11</artifactId>
-    <version>0.2.6</version>
+    <version>0.2.7</version>
     <name>common utils</name>
     <url>https://github.com/allwefantasy/common-utils</url>
     <description>
@@ -161,6 +161,11 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.17.Final</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.fusesource.leveldbjni</groupId>
+            <artifactId>leveldbjni-all</artifactId>
+            <version>1.8</version>
         </dependency>
     </dependencies>
 

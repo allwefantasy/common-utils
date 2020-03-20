@@ -3,7 +3,7 @@ package tech.mlsql.common.utils.io
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
 import java.nio.file.{Files => JFiles}
-import java.io.{DataInput, DataOutput, File, FileInputStream, FileOutputStream, IOException, InputStream, InputStreamReader, OutputStream}
+import java.io.{DataInput, DataOutput, DataOutputStream, File, FileInputStream, FileOutputStream, IOException, InputStream, InputStreamReader, OutputStream}
 import java.net.{MalformedURLException, URI}
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.TimeUnit
@@ -618,6 +618,12 @@ object IOTool extends Logging {
     } else {
       ""
     }
+  }
+
+  def writeUTF(str: String, dataOut: DataOutputStream) {
+    val bytes = str.getBytes(StandardCharsets.UTF_8)
+    dataOut.writeInt(bytes.length)
+    dataOut.write(bytes)
   }
 
 
