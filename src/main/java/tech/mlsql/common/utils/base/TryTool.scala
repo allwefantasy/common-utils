@@ -12,6 +12,17 @@ import scala.util.control.{ControlThrowable, NonFatal}
  */
 object TryTool extends Logging{
   private val uncaughtExceptionHandler = new UncaughtExceptionHandler
+  
+  def tryOrElse[T](block: => T)(block2: => T): T = {
+    try {
+      block
+    } catch {
+      case e: Exception =>
+        block2
+
+    }
+  }
+
   /**
    * Execute a block of code that evaluates to Unit, forwarding any uncaught exceptions to the
    * default UncaughtExceptionHandler
