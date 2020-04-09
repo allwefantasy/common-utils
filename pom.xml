@@ -6,7 +6,7 @@
 
     <groupId>tech.mlsql</groupId>
     <artifactId>common-utils_2.11</artifactId>
-    <version>0.2.8</version>
+    <version>0.3.0</version>
     <name>common utils</name>
     <url>https://github.com/allwefantasy/common-utils</url>
     <description>
@@ -41,18 +41,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <scala.version>2.11.8</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
-        <scala.jline.version>2.11.0-M3</scala.jline.version>
-
-        <spark.version>2.4.3</spark.version>
-        <spark.bigversion>2.4</spark.bigversion>
-        <mlsql.version>1.2.0</mlsql.version>
-
-        <guava.version>16.0</guava.version>
+        
         <httpclient.version>4.5.3</httpclient.version>
-
-        <serviceframework.version>2.0.0</serviceframework.version>
         <scope>provided</scope>
         <hadoop-client-version>2.6.5</hadoop-client-version>
 
