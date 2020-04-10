@@ -1,7 +1,7 @@
 package tech.mlsql.common.utils.distribute.socket.server
 
 import java.io.{DataInputStream, DataOutputStream}
-import java.net.{InetAddress, ServerSocket, Socket}
+import java.net.{InetAddress, InetSocketAddress, ServerSocket, Socket}
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicReference
@@ -53,7 +53,7 @@ object SocketServerInExecutor extends Logging {
     //    } else {
     //      SparkEnv.get.rpcEnv.address.host
     //    }
-    val serverSocket: ServerSocket = new ServerSocket(0, 1, InetAddress.getByName(host))
+    val serverSocket: ServerSocket = new ServerSocket(0, 10000, InetAddress.getByName(host))
     // throw exception if  the socket server have no connection in 5 min
     // then we will close the serverSocket
     //serverSocket.setSoTimeout(1000 * 60 * 5)
@@ -76,7 +76,7 @@ object SocketServerInExecutor extends Logging {
                   func(socket)
                 } catch {
                   case e: Exception =>
-                    logInfo(s"The server ${serverSocket} is closing the socket ${socket} connection")
+                    logInfo(s"The server ${serverSocket} is closing the socket ${socket} connection", e)
                 } finally {
                   JavaUtils.closeQuietly(socket)
                 }
@@ -97,13 +97,17 @@ object SocketServerInExecutor extends Logging {
   }
 
   def reportHostAndPort(tempSocketServerHost: String, tempSocketServerPort: Int, rhap: ReportHostAndPort) = {
-    val socket = new Socket(tempSocketServerHost, tempSocketServerPort)
+    val socket = new Socket()
+    socket.connect(new InetSocketAddress(tempSocketServerHost, tempSocketServerPort))
+    val din = new DataInputStream(socket.getInputStream)
     val dout = new DataOutputStream(socket.getOutputStream)
     val client = new SocketServerSerDer[ReportSingleAction, ReportSingleAction]() {}
     try {
+
       client.sendRequest(dout, rhap)
-      dout.flush()
-      dout.close()
+      client.readRequest(din) match {
+        case a: ReportHostAndPort =>
+      }
     } finally {
       try {
         socket.close()
