@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tech.mlsql</groupId>
-    <artifactId>common-utils_2.12</artifactId>
+    <artifactId>common-utils_2.11</artifactId>
     <version>0.3.1</version>
     <name>common utils</name>
     <url>https://github.com/allwefantasy/common-utils</url>
