@@ -1,8 +1,8 @@
 package tech.mlsql.common.utils.env.python
 
 /**
-  * 2019-08-12 WilliamZhu(allwefantasy@gmail.com)
-  */
+ * 2019-08-12 WilliamZhu(allwefantasy@gmail.com)
+ */
 
 import java.io.File
 import java.nio.charset.Charset
@@ -12,6 +12,7 @@ import net.sf.json.JSONObject
 import org.apache.commons.io.FileUtils
 import tech.mlsql.common.utils.hdfs.HDFSOperator
 import tech.mlsql.common.utils.log.Logging
+import tech.mlsql.common.utils.path.PathFun
 import tech.mlsql.common.utils.shell.ShellCommand
 
 import scala.collection.JavaConverters._
@@ -69,13 +70,13 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
     }
     val stdout = res.out.string
 
-    val envNames = JSONObject.fromObject(stdout).getJSONArray("envs").asScala.map(_.asInstanceOf[String].split("/").last).toSet
+    val envNames = JSONObject.fromObject(stdout).getJSONArray("envs").asScala.map(_.asInstanceOf[String].split(PathFun.pathSeparator).last).toSet
     val projectEnvName = getCondaEnvName(condaEnvPath)
     if (!envNames.contains(projectEnvName)) {
       logInfo(s"=== Creating conda environment $projectEnvName ===")
       condaEnvPath match {
         case Some(path) =>
-          val tempFile = "/tmp/" + UUID.randomUUID() + ".yaml"
+          val tempFile = PathFun("tmp").add(UUID.randomUUID() + ".yaml").toPath
           try {
             FileUtils.write(new File(tempFile), getCondaYamlContent(condaEnvPath), Charset.forName("utf-8"))
             val cr = ShellCommand.execCmdV2WithProcessing((s) => {
@@ -156,7 +157,7 @@ class BasicCondaEnvManager(options: Map[String, String]) extends Logging {
       case None => System.getenv(BasicCondaEnvManager.condaHomeKey)
     }
     if (condaHome != null) {
-      s"${condaHome}/bin/${executableName}"
+      PathFun(condaHome).add("bin").add(executableName).toPath
     } else executableName
   }
 }
