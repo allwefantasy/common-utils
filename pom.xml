@@ -50,7 +50,7 @@
 
         <scope>provided</scope>
 
-        <jackson.version>2.10.0</jackson.version>
+        <jackson.version>2.6.7.1</jackson.version>
 
         <json4s.version>3.5.3</json4s.version>
         <lift-json.version>3.3.0</lift-json.version>
