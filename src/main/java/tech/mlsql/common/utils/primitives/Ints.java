@@ -624,4 +624,9 @@ public final class Ints {
     public static Integer tryParse(String string) {
         return AndroidInteger.tryParse(string, 10);
     }
+
+    public static int constrainToRange(int value, int min, int max) {
+        checkArgument(min <= max, "min (%s) must be less than or equal to max (%s)", min, max);
+        return Math.min(Math.max(value, min), max);
+    }
 }

@@ -13,6 +13,23 @@ import java.util.*;
  */
 
 final class Platform {
+
+    static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+        return CompactHashMap.createWithExpectedSize(expectedSize);
+    }
+
+    static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+        return Sets.newHashSetWithExpectedSize(expectedSize);
+    }
+
+    static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+        return Sets.newLinkedHashSetWithExpectedSize(expectedSize);
+    }
+
+    static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+        return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
+    }
+
     /**
      * Returns a new array of the given length with the same type as a reference
      * array.
