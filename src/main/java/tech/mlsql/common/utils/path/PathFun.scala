@@ -31,7 +31,7 @@ class PathFun(rootPath: String) {
 }
 
 object PathFun {
-  val pathSeparator = File.pathSeparator
+  val pathSeparator = File.separator
   def apply(rootPath: String): PathFun = new PathFun(rootPath)
 
   def joinPath(rootPath: String, paths: String*) = {
