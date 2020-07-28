@@ -35,6 +35,10 @@ import static tech.mlsql.common.utils.collect.CollectPreconditions.checkNonnegat
 public final class Maps {
     private Maps() {}
 
+    public static <K, V> LinkedHashMap<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+        return new LinkedHashMap<>(capacity(expectedSize));
+    }
+
     private enum EntryFunction implements Function<Entry<?, ?>, Object> {
         KEY {
             @Override

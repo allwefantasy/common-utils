@@ -10,8 +10,18 @@ import scala.util.control.{ControlThrowable, NonFatal}
 /**
  * 19/3/2020 WilliamZhu(allwefantasy@gmail.com)
  */
-object TryTool extends Logging{
+object TryTool extends Logging {
   private val uncaughtExceptionHandler = new UncaughtExceptionHandler
+
+
+  def tryOrNull[T](block: => T): T = {
+    try {
+      block
+    } catch {
+      case e: Exception => null.asInstanceOf[T]
+    }
+  }
+
 
   def tryOrElse[T](block: => T)(block2: => T): T = {
     try {
@@ -57,7 +67,6 @@ object TryTool extends Logging{
         scala.util.Failure(t)
     }
   }
-
 
 
   /**
@@ -165,5 +174,5 @@ object TryTool extends Logging{
     }
   }
 
- 
+
 }
