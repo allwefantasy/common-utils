@@ -1,6 +1,7 @@
 package tech.mlsql.common.utils.base
 
 import java.io.{StringReader, StringWriter}
+import java.util.UUID
 import java.util.concurrent.atomic.AtomicInteger
 
 import org.apache.velocity.VelocityContext
@@ -12,6 +13,14 @@ import scala.collection.mutable.ArrayBuffer
 
 object Templates {
 
+  private def evaluateDefaultValue(defaultV:String) = {
+    defaultV match {
+      case "uuid()"=>
+        UUID.randomUUID().toString.replaceAll("-","")
+      case _ => defaultV
+    }
+  }
+  
   /**
    *   Templates.evaluate(" hello {} ",Seq("jack"))
    *   Templates.evaluate(" hello {0} {1} {0}",Seq("jack","wow"))
@@ -20,11 +29,11 @@ object Templates {
     var finalCommand = ArrayBuffer[Char]()
     val len = str.length
 
-    def fetchParam(index: Int) = {
-      if (index < parameters.length) {
+    def fetchParam(index: Int,defaultV:String) = {
+      if (index < parameters.length && index >= 0) {
         parameters(index).toCharArray
       } else {
-        Array[Char]()
+        evaluateDefaultValue(defaultV).toCharArray()
       }
     }
 
@@ -34,7 +43,7 @@ object Templates {
 
     def positionReplace(i: Int): Boolean = {
       if (str(i) == '{' && i < (len - 1) && str(i + 1) == '}') {
-        finalCommand ++= fetchParam(posCount.get())
+        finalCommand ++= fetchParam(posCount.get(),"")
         curPos.set(i + 2)
         posCount.addAndGet(1)
         return true
@@ -42,6 +51,9 @@ object Templates {
       return false
     }
 
+
+
+    
     def namedPositionReplace(i: Int): Boolean = {
 
       if (str(i) != '{') return false
@@ -61,13 +73,19 @@ object Templates {
 
       val shouldBeNumber = str.slice(startPos + 1, endPos).trim
       val namedPos = try {
-        Integer.parseInt(shouldBeNumber)
+        shouldBeNumber.split(":") match {
+          case Array(pos,defaultV) =>
+            val posInt = Integer.parseInt(pos)
+            finalCommand ++= fetchParam(posInt,defaultV)
+          case Array(pos)=>
+            val postInt = Integer.parseInt(pos)
+            finalCommand ++= fetchParam(postInt,"")
+        }
       } catch {
         case e: Exception =>
           return false
       }
 
-      finalCommand ++= fetchParam(namedPos)
       curPos.set(endPos + 1)
       return true
     }
