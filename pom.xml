@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>tech.mlsql</groupId>
-    <artifactId>common-utils_2.11</artifactId>
-    <version>0.3.6</version>
+    <artifactId>common-utils_2.12</artifactId>
+    <version>0.3.7</version>
     <name>common utils</name>
     <url>https://github.com/allwefantasy/common-utils</url>
     <description>
@@ -42,8 +42,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <scala.version>2.11.8</scala.version>
-        <scala.binary.version>2.11</scala.binary.version>
+        <scala.version>2.12.8</scala.version>
+        <scala.binary.version>2.12</scala.binary.version>
+        <scala.jline.version>2.12.1</scala.jline.version>
 
         <guava.version>16.0</guava.version>
         <httpclient.version>4.5.3</httpclient.version>
@@ -165,15 +166,6 @@
     </dependencies>
 
     <profiles>
-
-        <profile>
-            <id>scala-2.12</id>
-            <properties>
-                <scala.version>2.12.8</scala.version>
-                <scala.binary.version>2.12</scala.binary.version>
-                <scala.jline.version>2.12.1</scala.jline.version>
-            </properties>
-        </profile>
 
         <profile>
             <id>disable-java8-doclint</id>
