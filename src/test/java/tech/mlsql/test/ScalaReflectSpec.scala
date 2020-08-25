@@ -21,6 +21,8 @@ class ScalaReflectSpec extends FunSuite {
   test("template evaluate") {
     assert(Templates.evaluate(" hello {} ",Seq("jack"))==" hello jack ")
     assert(Templates.evaluate(" hello {0} {1} {0}",Seq("jack","wow"))==" hello jack wow jack")
+    println(Templates.evaluate(" hello {0} {1} {2:uuid()}",Seq("jack","wow")))
+    println(Templates.evaluate(" hello {0} {1} {2:mock}",Seq("jack","wow")))
   }
 }
 
