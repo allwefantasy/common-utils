@@ -6,30 +6,51 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import org.apache.velocity.VelocityContext
 import org.apache.velocity.app.Velocity
+import tech.mlsql.common.utils.func.{WowFuncParser, WowSymbol}
 import tech.mlsql.common.utils.serder.json.JSONTool
+import tech.mlsql.common.utils.shell.command.ParamsUtil
 
+import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
 
 object Templates {
-
-  private def evaluateDefaultValue(defaultV:String) = {
-    defaultV match {
-      case "uuid()"=>
-        UUID.randomUUID().toString.replaceAll("-","")
-      case _ => defaultV
-    }
-  }
-  
   /**
    *   Templates.evaluate(" hello {} ",Seq("jack"))
    *   Templates.evaluate(" hello {0} {1} {0}",Seq("jack","wow"))
    */
-  def evaluate(str: String, parameters: Seq[String]) = {
+  def evaluate(_str: String, parameters: Seq[String]) = {
+    val str = if (_str.contains("{:all}")) {
+      _str.replace("{:all}", JSONTool.toJsonStr(parameters))
+    } else _str
+
+    def evaluateDefaultValue(defaultV: String) = {
+      val funcParser = new WowFuncParser()
+      val funcOpt = funcParser.parseFunc(defaultV)
+
+      funcOpt match {
+        case Some(func) =>
+          funcParser.evaluate(func, (executeFunc) => {
+            executeFunc.name match {
+              case "uuid" => WowSymbol(UUID.randomUUID().toString.replaceAll("-", ""))
+              case "next" =>
+                val index = parameters.indexOf(executeFunc.params.head.name)
+                if (index != -1) {
+                  WowSymbol(parameters(index + 1))
+                } else executeFunc.params(1)
+            }
+          }).name
+
+        case None =>
+          defaultV
+      }
+
+    }
+
     var finalCommand = ArrayBuffer[Char]()
     val len = str.length
 
-    def fetchParam(index: Int,defaultV:String) = {
+    def fetchParam(index: Int, defaultV: String) = {
       if (index < parameters.length && index >= 0) {
         parameters(index).toCharArray
       } else {
@@ -43,7 +64,7 @@ object Templates {
 
     def positionReplace(i: Int): Boolean = {
       if (str(i) == '{' && i < (len - 1) && str(i + 1) == '}') {
-        finalCommand ++= fetchParam(posCount.get(),"")
+        finalCommand ++= fetchParam(posCount.get(), "")
         curPos.set(i + 2)
         posCount.addAndGet(1)
         return true
@@ -52,8 +73,6 @@ object Templates {
     }
 
 
-
-    
     def namedPositionReplace(i: Int): Boolean = {
 
       if (str(i) != '{') return false
@@ -72,14 +91,14 @@ object Templates {
       }
 
       val shouldBeNumber = str.slice(startPos + 1, endPos).trim
-      val namedPos = try {
-        shouldBeNumber.split(":") match {
-          case Array(pos,defaultV) =>
+      try {
+        shouldBeNumber.split(":", 2) match {
+          case Array(pos, defaultV) =>
             val posInt = Integer.parseInt(pos)
-            finalCommand ++= fetchParam(posInt,defaultV)
-          case Array(pos)=>
+            finalCommand ++= fetchParam(posInt, defaultV)
+          case Array(pos) =>
             val postInt = Integer.parseInt(pos)
-            finalCommand ++= fetchParam(postInt,"")
+            finalCommand ++= fetchParam(postInt, "")
         }
       } catch {
         case e: Exception =>
@@ -105,11 +124,13 @@ object Templates {
       }
     }
 
-    if (str.contains("{:all}")) {
-      finalCommand ++= str.replace("{:all}", JSONTool.toJsonStr(parameters)).toCharArray
+    if (parameters.headOption.isDefined && parameters.head == "_") {
+      val params = new ParamsUtil(parameters.drop(1).toArray)
+      finalCommand ++= namedEvaluate(str, params.getParamsMap.asScala.toMap).toCharArray
     } else {
       textEvaluate
     }
+
     String.valueOf(finalCommand.toArray)
   }
 
