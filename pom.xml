@@ -41,8 +41,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <scala.version>2.11.8</scala.version>
+        
         <scala.binary.version>2.11</scala.binary.version>
 
         <guava.version>16.0</guava.version>
@@ -169,7 +168,6 @@
         <profile>
             <id>scala-2.12</id>
             <properties>
-                <scala.version>2.12.8</scala.version>
                 <scala.binary.version>2.12</scala.binary.version>
                 <scala.jline.version>2.12.1</scala.jline.version>
             </properties>
