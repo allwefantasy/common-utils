@@ -20,9 +20,7 @@ object Templates {
    *   Templates.evaluate(" hello {0} {1} {0}",Seq("jack","wow"))
    */
   def evaluate(_str: String, parameters: Seq[String]) = {
-    val str = if (_str.contains("{:all}")) {
-      _str.replace("{:all}", JSONTool.toJsonStr(parameters))
-    } else _str
+    val str = _str
 
     def evaluateDefaultValue(defaultV: String) = {
       val funcParser = new WowFuncParser()
@@ -131,7 +129,12 @@ object Templates {
       textEvaluate
     }
 
-    String.valueOf(finalCommand.toArray)
+    var res = String.valueOf(finalCommand.toArray)
+
+    if (res.contains("{:all}")) {
+      res = res.replace("{:all}", JSONTool.toJsonStr(parameters))
+    }
+    res
   }
 
   def namedEvaluate(templateStr: String, root: Map[String, AnyRef]) = {
