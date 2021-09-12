@@ -31,7 +31,10 @@ class PathFun(rootPath: String) {
 }
 
 object PathFun {
+  private val _tmp = System.getProperty("java.io.tmpdir")
+  private val _userDir = System.getProperty("user.dir")
   val pathSeparator = File.separator
+
   def apply(rootPath: String): PathFun = new PathFun(rootPath)
 
   def joinPath(rootPath: String, paths: String*) = {
@@ -39,4 +42,22 @@ object PathFun {
     for (arg <- paths) pf.add(arg)
     pf.toPath
   }
+
+  def tmp: PathFun = {
+    new PathFun(_tmp)
+  }
+
+  def current: PathFun = {
+    new PathFun(_userDir)
+  }
+
+  def join(paths: String*): String = {
+    val buffer = ArrayBuffer[String]()
+    for (arg <- paths) {
+      val cleanPath = arg.stripPrefix(PathFun.pathSeparator).stripSuffix(PathFun.pathSeparator)
+      buffer += cleanPath
+    }
+    buffer.mkString(PathFun.pathSeparator)
+  }
+
 }
