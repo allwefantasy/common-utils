@@ -87,7 +87,7 @@ object SocketServerInExecutor extends Logging {
           JavaUtils.closeQuietly(serverSocket)
         }
         catch {
-          case e: Exception => logError("", e)
+          case e: Exception => logInfo("", e)
         }
 
       }
