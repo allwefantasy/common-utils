@@ -3,11 +3,10 @@
 This library is like guava which provides basic util class for other MLSQL related projects.
 
 ```
-## for scala 2.11
-mvn clean deploy -Prelease-sign-artifacts -Pdisable-java8-doclint
+./dev/change-scala-version.sh 2.11
+mvn clean deploy -DskipTests -Pdisable-java8-doclint -Prelease-sign-artifacts
 
-## for scala 2.12
-
-mvn clean deploy -Prelease-sign-artifacts -Pdisable-java8-doclint -Pscala-2.12
+./dev/change-scala-version.sh 2.12
+mvn clean deploy -DskipTests -Pdisable-java8-doclint -Prelease-sign-artifacts -Pscala-2.12
 ```
 
