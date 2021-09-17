@@ -3,7 +3,7 @@ package tech.mlsql.common.utils.collect;
 
 import java.util.Iterator;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static tech.mlsql.common.utils.base.Preconditions.checkNotNull;
 
 /**
  * An iterator that transforms a backing iterator; for internal use. This avoids

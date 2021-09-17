@@ -1,6 +1,6 @@
 package tech.mlsql.common.utils.collect;
 
-import com.google.common.primitives.Ints;
+import tech.mlsql.common.utils.primitives.Ints;
 
 import javax.annotation.Nullable;
 

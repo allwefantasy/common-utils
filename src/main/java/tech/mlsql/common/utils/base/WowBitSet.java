@@ -1,6 +1,6 @@
 package tech.mlsql.common.utils.base;
 
-import com.google.common.primitives.Longs;
+import tech.mlsql.common.utils.primitives.Longs;
 
 import java.util.BitSet;
 

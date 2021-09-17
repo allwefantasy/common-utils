@@ -16,7 +16,7 @@
  */
 package tech.mlsql.common.utils.kv;
 
-import com.google.common.base.Preconditions;
+import tech.mlsql.common.utils.base.Preconditions;
 
 import java.util.Arrays;
 

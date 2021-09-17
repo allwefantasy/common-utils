@@ -1,7 +1,7 @@
 package tech.mlsql.common.utils.distribute.socket.server;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import tech.mlsql.common.utils.base.Preconditions;
+import tech.mlsql.common.utils.collect.ImmutableMap;
 import org.apache.commons.lang.SystemUtils;
 import org.python.netty.buffer.Unpooled;
 import org.slf4j.Logger;

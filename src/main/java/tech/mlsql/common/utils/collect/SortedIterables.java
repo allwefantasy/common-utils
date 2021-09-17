@@ -4,7 +4,7 @@ package tech.mlsql.common.utils.collect;
 import java.util.Comparator;
 import java.util.SortedSet;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static tech.mlsql.common.utils.base.Preconditions.checkNotNull;
 
 /**
  * Utilities for dealing with sorted collections of all types.

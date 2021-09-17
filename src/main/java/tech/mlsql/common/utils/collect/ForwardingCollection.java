@@ -1,6 +1,6 @@
 package tech.mlsql.common.utils.collect;
 
-import com.google.common.base.Objects;
+import tech.mlsql.common.utils.base.Objects;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static tech.mlsql.common.utils.base.Preconditions.checkNotNull;
 
 /**
  * A set which forwards all its method calls to another set. Subclasses should

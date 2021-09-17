@@ -18,7 +18,7 @@
 
 package tech.mlsql.common.utils.lang.sc
 
-import com.google.common.cache.{CacheBuilder, CacheLoader}
+import tech.mlsql.common.utils.cache.{CacheBuilder, CacheLoader}
 import javax.tools._
 import tech.mlsql.common.utils.lang.ja.{JavaByteObject, JavaReflect}
 import tech.mlsql.common.utils.lang.py.PythonInterp

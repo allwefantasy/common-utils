@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import static com.google.common.base.Preconditions.*;
+import static tech.mlsql.common.utils.base.Preconditions.*;
 
 /**
  * {@link HashFunction} adapter for {@link MessageDigest} instances.
