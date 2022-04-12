@@ -58,7 +58,7 @@
         <json4s.version>3.5.3</json4s.version>
         <lift-json.version>3.3.0</lift-json.version>
         <scalatest.version>3.0.0</scalatest.version>
-        <hadoop-version>2.7.0</hadoop-version>
+        <hadoop-version>3.2.3</hadoop-version>
     </properties>
 
     <dependencies>
