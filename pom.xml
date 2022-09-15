@@ -6,7 +6,7 @@
 
     <groupId>tech.mlsql</groupId>
     <artifactId>common-utils_2.12</artifactId>
-    <version>0.3.9.4</version>
+    <version>0.3.9.5-SNAPSHOT</version>
     <name>common utils</name>
     <url>https://github.com/allwefantasy/common-utils</url>
     <description>
@@ -59,6 +59,8 @@
         <lift-json.version>3.3.0</lift-json.version>
         <scalatest.version>3.0.0</scalatest.version>
         <hadoop-version>2.7.0</hadoop-version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <log4j.version>2.17.2</log4j.version>
     </properties>
 
     <dependencies>
@@ -186,6 +188,37 @@
             <artifactId>leveldbjni-all</artifactId>
             <version>1.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>${scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>${scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+            <scope>${scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+            <scope>${scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+            <scope>${scope}</scope>
+        </dependency>
+
     </dependencies>
 
     <profiles>
