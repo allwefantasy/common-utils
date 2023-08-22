@@ -6,7 +6,7 @@
 
     <groupId>tech.mlsql</groupId>
     <artifactId>common-utils_2.12</artifactId>
-    <version>0.3.9.5-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>common utils</name>
     <url>https://github.com/allwefantasy/common-utils</url>
     <description>
