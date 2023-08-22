@@ -33,6 +33,7 @@ class PathFun(rootPath: String) {
 object PathFun {
   private val _tmp = System.getProperty("java.io.tmpdir")
   private val _userDir = System.getProperty("user.dir")
+  private val _userHome = System.getProperty("user.home")
   val pathSeparator = File.separator
 
   def apply(rootPath: String): PathFun = new PathFun(rootPath)
@@ -49,6 +50,10 @@ object PathFun {
 
   def current: PathFun = {
     new PathFun(_userDir)
+  }
+
+  def home: PathFun = {
+    new PathFun(_userHome)
   }
 
   def join(paths: String*): String = {

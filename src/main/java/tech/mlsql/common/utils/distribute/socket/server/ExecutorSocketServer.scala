@@ -13,13 +13,12 @@ object SocketServerInExecutor extends Logging {
 
   val threadPool = Executors.newFixedThreadPool(100)
 
-
-  def setupOneConnectionServer(host: String, threadName: String)
+  def setupOneConnectionServerWithSoTimeout(host: String, threadName: String,soTimeout:Int)
                               (func: Socket => Unit): (ServerSocket, String, Int) = {
 
     val serverSocket: ServerSocket = new ServerSocket(0, 1, InetAddress.getByName(host))
     // Close the socket if no connection in 5 min
-    serverSocket.setSoTimeout(1000 * 60 * 5)
+    serverSocket.setSoTimeout(soTimeout)
     new Thread(threadName) {
       setDaemon(true)
 
@@ -39,6 +38,11 @@ object SocketServerInExecutor extends Logging {
     }.start()
 
     (serverSocket, host, serverSocket.getLocalPort)
+  }
+  def setupOneConnectionServer(host: String, threadName: String)
+                              (func: Socket => Unit): (ServerSocket, String, Int) = {
+
+    setupOneConnectionServerWithSoTimeout(host,threadName,1000*60*5)(func)
   }
 
 
